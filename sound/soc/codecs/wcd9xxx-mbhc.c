@@ -4427,12 +4427,12 @@ static void wcd9xxx_mbhc_fw_read(struct work_struct *work)
 	(void) wcd9xxx_init_and_calibrate(mbhc);
 }
 
+#define BUFFER_SIZE 768
 #ifdef CONFIG_DEBUG_FS
 ssize_t codec_mbhc_debug_read(struct file *file, char __user *buf,
 			      size_t count, loff_t *pos)
 {
-	const int size = 768;
-	char buffer[size];
+	char buffer[BUFFER_SIZE];
 	int n = 0;
 	struct wcd9xxx_mbhc *mbhc = file->private_data;
 	const struct mbhc_internal_cal_data *p = &mbhc->mbhc_data;
@@ -4447,42 +4447,42 @@ ssize_t codec_mbhc_debug_read(struct file *file, char __user *buf,
 	const s16 v_br_h =
 	    wcd9xxx_get_current_v(mbhc, WCD9XXX_CURRENT_V_BR_H);
 
-	n = scnprintf(buffer, size - n, "dce_z = %x(%dmv)\n",
+	n = scnprintf(buffer, BUFFER_SIZE - n, "dce_z = %x(%dmv)\n",
 		      p->dce_z, wcd9xxx_codec_sta_dce_v(mbhc, 1, p->dce_z));
-	n += scnprintf(buffer + n, size - n, "dce_mb = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "dce_mb = %x(%dmv)\n",
 		       p->dce_mb, wcd9xxx_codec_sta_dce_v(mbhc, 1, p->dce_mb));
-	n += scnprintf(buffer + n, size - n, "dce_nsc_cs_z = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "dce_nsc_cs_z = %x(%dmv)\n",
 		      p->dce_nsc_cs_z,
 		      __wcd9xxx_codec_sta_dce_v(mbhc, 1, p->dce_nsc_cs_z,
 						p->dce_nsc_cs_z,
 						VDDIO_MICBIAS_MV));
-	n += scnprintf(buffer + n, size - n, "sta_z = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "sta_z = %x(%dmv)\n",
 		       p->sta_z, wcd9xxx_codec_sta_dce_v(mbhc, 0, p->sta_z));
-	n += scnprintf(buffer + n, size - n, "sta_mb = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "sta_mb = %x(%dmv)\n",
 		       p->sta_mb, wcd9xxx_codec_sta_dce_v(mbhc, 0, p->sta_mb));
-	n += scnprintf(buffer + n, size - n, "t_dce = %d\n",  p->t_dce);
-	n += scnprintf(buffer + n, size - n, "t_sta = %d\n",  p->t_sta);
-	n += scnprintf(buffer + n, size - n, "micb_mv = %dmv\n", p->micb_mv);
-	n += scnprintf(buffer + n, size - n, "v_ins_hu = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "t_dce = %d\n",  p->t_dce);
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "t_sta = %d\n",  p->t_sta);
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "micb_mv = %dmv\n", p->micb_mv);
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_ins_hu = %x(%dmv)\n",
 		       v_ins_hu, wcd9xxx_codec_sta_dce_v(mbhc, 0, v_ins_hu));
-	n += scnprintf(buffer + n, size - n, "v_ins_h = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_ins_h = %x(%dmv)\n",
 		       v_ins_h, wcd9xxx_codec_sta_dce_v(mbhc, 1, v_ins_h));
-	n += scnprintf(buffer + n, size - n, "v_b1_hu = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_b1_hu = %x(%dmv)\n",
 		       v_b1_hu, wcd9xxx_codec_sta_dce_v(mbhc, 0, v_b1_hu));
-	n += scnprintf(buffer + n, size - n, "v_b1_h = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_b1_h = %x(%dmv)\n",
 		       v_b1_h, wcd9xxx_codec_sta_dce_v(mbhc, 1, v_b1_h));
-	n += scnprintf(buffer + n, size - n, "v_brh = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_brh = %x(%dmv)\n",
 		       v_br_h, wcd9xxx_codec_sta_dce_v(mbhc, 1, v_br_h));
-	n += scnprintf(buffer + n, size - n, "v_brl = %x(%dmv)\n",  p->v_brl,
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_brl = %x(%dmv)\n",  p->v_brl,
 		       wcd9xxx_codec_sta_dce_v(mbhc, 0, p->v_brl));
-	n += scnprintf(buffer + n, size - n, "v_no_mic = %x(%dmv)\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_no_mic = %x(%dmv)\n",
 		       p->v_no_mic,
 		       wcd9xxx_codec_sta_dce_v(mbhc, 0, p->v_no_mic));
-	n += scnprintf(buffer + n, size - n, "v_inval_ins_low = %d\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_inval_ins_low = %d\n",
 		       p->v_inval_ins_low);
-	n += scnprintf(buffer + n, size - n, "v_inval_ins_high = %d\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "v_inval_ins_high = %d\n",
 		       p->v_inval_ins_high);
-	n += scnprintf(buffer + n, size - n, "Insert detect insert = %d\n",
+	n += scnprintf(buffer + n, BUFFER_SIZE - n, "Insert detect insert = %d\n",
 		       !wcd9xxx_swch_level_remove(mbhc));
 	buffer[n] = 0;
 
